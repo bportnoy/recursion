@@ -5,8 +5,6 @@
 
 var stringifyJSON = function(obj) {
   var result = stringify(obj);
-  console.log("Mine: " + stringify(obj));
-  console.log("Reality: " + JSON.stringify(obj));
   return result;
 };
 
@@ -34,7 +32,7 @@ function stringify(input){
   	default:
   	console.log("Invalid input: " + input);
   }
-}
+};
 
 function stringifyArray(array){
 	var string = "[";
@@ -46,7 +44,7 @@ function stringifyArray(array){
 	}
 	string = string.concat("]");
 	return string;
-}
+};
 
 function stringifyObject(object){
 	var string = "{";
@@ -62,15 +60,4 @@ function stringifyObject(object){
 	}
 	string = string.concat("}");
 	return string;
-}
-
-var testobj = {"a":[],"c": {}, "b": true};
-var testarr = [1,3,"hello"];
-var unstring =  {
-    'functions': function(){},
-    'undefined': undefined
-  };
-
-console.log(unstring);
-console.log(JSON.stringify(unstring));
-console.log(stringify(unstring));
+};
