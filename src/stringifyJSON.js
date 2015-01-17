@@ -11,7 +11,7 @@ var stringifyJSON = function(obj) {
   return result;
 };
 
-function stringifyPrimitive(input){
+function stringify(input){
   switch (typeof input){
   	case 'number':
   	  return input.toString();
@@ -21,6 +21,7 @@ function stringifyPrimitive(input){
   	  break;
   	case 'string':
   	  return '\"' + input + '\"';
+  	  console.log("imma string you!");
   	  break;
   	case 'object':
   	  if (_.isArray(input)) return stringifyArray(input);
@@ -32,13 +33,18 @@ function stringifyPrimitive(input){
 }
 
 function stringifyArray(array){
-	var string = "[" + array + "]";
-	//string.concat(array.toString());
-	//string.concat("]");
+	var string = "[";
+	var length = array.length;
+	for (var i = 0; i<length; i++){
+	  var value = stringify(array[i]);
+	  string = string.concat(value);
+	  if (i < length-1) string  = string.concat(",");
+	}
+	string = string.concat("]");
 	return string;
 }
 
-function stringifyObject(object){
+function serializeObject(object){
 	var string = "";
 	return string;
 }
@@ -49,8 +55,7 @@ var testarr = [1,3,"hello"];
 console.log(testobj);
 console.log(stringifyArray(testarr));
 console.log(JSON.stringify(testarr));
-console.log("test");
-console.log(JSON.stringify("test"));
-console.log(stringifyPrimitive("test"));
 console.log(true.toString());
 console.log(JSON.stringify(true));
+console.log(stringify("hello"));
+console.log("hello");
