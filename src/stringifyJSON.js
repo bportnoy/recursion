@@ -4,14 +4,14 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
-  var result = "";
-  
-  //result = (stack === null) ? result : stringifyJSON(result);
-
+  var result = stringify(obj);
+  console.log("Mine: " + stringify(obj));
+  console.log("Reality: " + JSON.stringify(obj));
   return result;
 };
 
 function stringify(input){
+  if (input === null) return "null";
   switch (typeof input){
   	case 'number':
   	  return input.toString();
@@ -27,6 +27,10 @@ function stringify(input){
   	  if (_.isArray(input)) return stringifyArray(input);
   	  else return stringifyObject(input);
   	  break;
+  	case 'function':
+  	  return null;
+  	case 'undefined':
+  	  return null;
   	default:
   	console.log("Invalid input: " + input);
   }
@@ -36,26 +40,37 @@ function stringifyArray(array){
 	var string = "[";
 	var length = array.length;
 	for (var i = 0; i<length; i++){
-	  var value = stringify(array[i]);
-	  string = string.concat(value);
-	  if (i < length-1) string  = string.concat(",");
+	    var value = stringify(array[i]);
+	    string = string.concat(value);
+	    if (i < length-1) string  = string.concat(",");
 	}
 	string = string.concat("]");
 	return string;
 }
 
-function serializeObject(object){
-	var string = "";
+function stringifyObject(object){
+	var string = "{";
+	var size = _.size(object);
+	for (var key in object){
+	    if (typeof object[key] !== 'undefined' && typeof object[key] !== 'function'){
+		  string = string.concat(stringify(key));
+		  string = string.concat(":");
+		  string = string.concat(stringify(object[key]));
+		  if (size>1) string = string.concat(",");
+		}
+		size--;
+	}
+	string = string.concat("}");
 	return string;
 }
 
-var testobj = {x:5,y:"string"};
+var testobj = {"a":[],"c": {}, "b": true};
 var testarr = [1,3,"hello"];
+var unstring =  {
+    'functions': function(){},
+    'undefined': undefined
+  };
 
-console.log(testobj);
-console.log(stringifyArray(testarr));
-console.log(JSON.stringify(testarr));
-console.log(true.toString());
-console.log(JSON.stringify(true));
-console.log(stringify("hello"));
-console.log("hello");
+console.log(unstring);
+console.log(JSON.stringify(unstring));
+console.log(stringify(unstring));
